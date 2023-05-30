@@ -2,11 +2,15 @@ class Drop {
   constructor() {
     this.x = random(width);
     this.y = random(-200, -100);
-    this.yspeed = 1;
+    this.yspeed = random(4, 10);
   }
 
   fall() {
     this.y = this.y + this.yspeed;
+
+    if (this.y > height) {
+      this.y = random(-200, -100);
+    }
   }
 
   show() {
