@@ -1,13 +1,16 @@
-let d;
+let drops = [];
 
 function setup() {
-  createCanvas(400, 400);
-  d = new Drop();
-  console.log(d);
+  createCanvas(640, 360);
+  for (let i = 0; i < 100; i++) {
+    drops[i] = new Drop();
+  }
 }
 
 function draw() {
   background(230, 230, 250);
-  d.fall();
-  d.show();
+  drops.forEach((d) => {
+    d.fall();
+    d.show();
+  });
 }

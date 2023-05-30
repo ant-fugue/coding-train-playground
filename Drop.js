@@ -1,7 +1,7 @@
 class Drop {
   constructor() {
-    this.x = width / 2;
-    this.y = 0;
+    this.x = random(width);
+    this.y = random(-200, -100);
     this.yspeed = 1;
   }
 
