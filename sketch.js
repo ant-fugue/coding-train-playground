@@ -1,16 +1,29 @@
-let s;
 const SCL = 20;
+
+let s;
+let food;
 
 function setup() {
   frameRate(10);
   createCanvas(400, 400);
   s = new Snake();
+  food = createVector(random(width), random(height));
 }
+
+// function pickLocation() {
+//   const cols = floor(width / SCL);
+//   const rows = floor(height / SCL);
+//   food = createVector(floor(random(cols)), floor(random(rows)));
+//   food.mult(SCL);
+// }
 
 function draw() {
   background(51);
   s.update();
   s.show();
+
+  fill(255, 0, 100);
+  rect(food.x, food.y, SCL, SCL);
 }
 
 function keyPressed() {
