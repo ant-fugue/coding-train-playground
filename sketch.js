@@ -1,6 +1,8 @@
 let s;
+const SCL = 20;
 
 function setup() {
+  frameRate(10);
   createCanvas(400, 400);
   s = new Snake();
 }
