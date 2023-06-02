@@ -7,27 +7,17 @@ function setup() {
   frameRate(10);
   createCanvas(400, 400);
   s = new Snake();
-  pickLocation();
-}
-
-function pickLocation() {
-  const cols = floor(width / SCL);
-  const rows = floor(height / SCL);
-  food = createVector(floor(random(cols)), floor(random(rows)));
-  food.mult(SCL);
+  f = new Food();
 }
 
 function draw() {
   background(51);
   s.update();
-  s.show();
-
-  if (s.eat(food)) {
-    pickLocation();
+  if (s.eat(f)) {
+    f.pickLocation();
   }
-
-  fill(255, 0, 100);
-  rect(food.x, food.y, SCL, SCL);
+  s.show();
+  f.show();
 }
 
 function keyPressed() {

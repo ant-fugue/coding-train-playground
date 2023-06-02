@@ -6,8 +6,8 @@ class Snake {
     this.yspeed = 0;
   }
 
-  eat(pos) {
-    const d = dist(this.x, this.y, pos.x, pos.y);
+  eat(item) {
+    const d = dist(this.x, this.y, item.position.x, item.position.y);
     if (d < 1) {
       return true;
     } else {
