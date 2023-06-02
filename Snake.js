@@ -6,6 +6,15 @@ class Snake {
     this.yspeed = 0;
   }
 
+  eat(pos) {
+    const d = dist(this.x, this.y, pos.x, pos.y);
+    if (d < 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   dir(x, y) {
     this.xspeed = x;
     this.yspeed = y;
