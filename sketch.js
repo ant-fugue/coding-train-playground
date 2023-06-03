@@ -12,6 +12,11 @@ function setup() {
 
 function draw() {
   background(51);
+
+  if (s.isDead()) {
+    alert("game over");
+    location.reload();
+  }
   s.update();
   if (s.eat(f)) {
     f.pickLocation();

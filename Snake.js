@@ -23,6 +23,19 @@ class Snake {
     this.xspeed = x;
     this.yspeed = y;
   }
+
+  isDead() {
+    // if the snake touches itself, it dies
+    for (let i = 0; i < this.tail.length; i++) {
+      const pos = this.tail[i];
+      const d = dist(this.x, this.y, pos.x, pos.y);
+      if (d < 1) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
   update() {
     // if the snake hasn't eaten the food, update its location in every frame
     if (this.total === this.tail.length) {
