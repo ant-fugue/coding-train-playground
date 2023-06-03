@@ -24,10 +24,13 @@ class Snake {
     this.yspeed = y;
   }
   update() {
-    for (let i = 0; i < this.tail.length - 1; i++) {
-      this.tail[i] = this.tail[i + 1];
+    // if the snake hasn't eaten the food, update its location in every frame
+    if (this.total === this.tail.length) {
+      for (let i = 0; i < this.tail.length - 1; i++) {
+        this.tail[i] = this.tail[i + 1];
+      }
     }
-    // inject its position to the end of the snake array
+    // if the snake has eaten the food, inject its position to the end of the snake array
     // push cannot be used because push adds element every frame in this case
     this.tail[this.total - 1] = createVector(this.x, this.y);
     this.x += this.xspeed * SCL;
