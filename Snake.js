@@ -4,11 +4,15 @@ class Snake {
     this.y = 0;
     this.xspeed = 1;
     this.yspeed = 0;
+    this.total = 1;
+    this.tail = [];
   }
 
   eat(item) {
     const d = dist(this.x, this.y, item.position.x, item.position.y);
     if (d < 1) {
+      // every time the snake eats the food, it increases its length
+      this.total++;
       return true;
     } else {
       return false;
@@ -20,6 +24,12 @@ class Snake {
     this.yspeed = y;
   }
   update() {
+    for (let i = 0; i < this.tail.length - 1; i++) {
+      this.tail[i] = this.tail[i + 1];
+    }
+    // inject its position to the end of the snake array
+    // push cannot be used because push adds element every frame in this case
+    this.tail[this.total - 1] = createVector(this.x, this.y);
     this.x += this.xspeed * SCL;
     this.y += this.yspeed * SCL;
 
@@ -29,6 +39,6 @@ class Snake {
 
   show() {
     fill(255);
-    rect(this.x, this.y, SCL, SCL);
+    this.tail.forEach((elem) => rect(elem.x, elem.y, SCL, SCL));
   }
 }
