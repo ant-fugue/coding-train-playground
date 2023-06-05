@@ -4,6 +4,7 @@ class Boid {
     this.velocity = p5.Vector.random2D();
     this.velocity.setMag(random(2, 4));
     this.acceleration = createVector();
+    this.maxForce = 0.2;
     this.maxSpeed = 4;
   }
 
@@ -44,6 +45,7 @@ class Boid {
       steering.setMag(this.maxSpeed);
       // the steering velocity = the average heading velocity - the boid velocity
       steering.sub(this.velocity);
+      steering.limit(this.maxForce);
     }
     return steering;
   }
