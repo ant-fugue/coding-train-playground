@@ -4,6 +4,7 @@ class Boid {
     this.velocity = p5.Vector.random2D();
     this.velocity.setMag(random(2, 4));
     this.acceleration = createVector();
+    this.maxSpeed = 4;
   }
 
   edge() {
@@ -39,6 +40,8 @@ class Boid {
     if (total > 0) {
       // this is the average heading velocity
       steering.div(total);
+      // the magnitude of flocks is the same
+      steering.setMag(this.maxSpeed);
       // the steering velocity = the average heading velocity - the boid velocity
       steering.sub(this.velocity);
     }
