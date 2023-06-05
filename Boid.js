@@ -6,6 +6,19 @@ class Boid {
     this.acceleration = createVector();
   }
 
+  edge() {
+    if (this.position.x > width) {
+      this.position.x = 0;
+    } else if (this.position.x < 0) {
+      this.position.x = width;
+    }
+    if (this.position.y > height) {
+      this.position.y = 0;
+    } else if (this.position.y < 0) {
+      this.position.y = height;
+    }
+  }
+
   // steer towards the average heading of local flockmates
   align(boids) {
     const perceptionRadius = 50;
