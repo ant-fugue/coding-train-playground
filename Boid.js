@@ -118,6 +118,11 @@ class Boid {
     const alignment = this.align(boids);
     const cohesion = this.cohere(boids);
     const separation = this.separate(boids);
+
+    alignment.mult(alignmentSlider.value());
+    cohesion.mult(cohesionSlider.value());
+    separation.mult(separationSlider.value());
+
     this.acceleration.add(separation);
     this.acceleration.add(alignment);
     this.acceleration.add(cohesion);
