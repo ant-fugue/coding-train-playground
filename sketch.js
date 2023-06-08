@@ -1,17 +1,27 @@
 let values = [];
 
 let i = 0;
+const w = 10;
 
 function setup() {
   createCanvas(400, 300);
-  for (let i = 0; i < width; i++) {
+  for (let i = 0; i < floor(width / w); i++) {
     values.push(random(height));
   }
+  frameRate(5);
 }
 
 function draw() {
   background(0);
+  bubbleSort();
+  values.forEach((elem, i) => {
+    stroke(0);
+    fill(255);
+    rect(i * w, height - elem, w, elem);
+  });
+}
 
+function bubbleSort() {
   // i is declared as a global variable, and increment this in every frame
   // if i is local, in every frame browser renders the sorted state, not the ongoing sorting process
   if (i < values.length) {
@@ -26,11 +36,6 @@ function draw() {
     noLoop();
   }
   i++;
-
-  values.forEach((elem, i) => {
-    stroke(255);
-    line(i, height, i, height - elem);
-  });
 }
 
 function swap(arr, a, b) {
