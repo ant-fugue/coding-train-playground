@@ -1,4 +1,9 @@
-let values = [];
+const values = [];
+
+// There are two possible values in states:
+// -1: is not a pivot index
+// 0: is a pivot index
+const stateOfValues = [];
 
 let i = 0;
 const w = 10;
@@ -7,6 +12,7 @@ function setup() {
   createCanvas(400, 300);
   for (let i = 0; i < floor(width / w); i++) {
     values.push(random(height));
+    stateOfValues[i] = -1;
   }
   frameRate(5);
 
@@ -22,7 +28,11 @@ function draw() {
   background(0);
   values.forEach((elem, i) => {
     stroke(0);
-    fill(255);
+    if (stateOfValues[i] === 0) {
+      fill(255, 0, 0);
+    } else {
+      fill(255);
+    }
     rect(i * w, height - elem, w, elem);
   });
 }
@@ -42,6 +52,8 @@ async function quickSort(arr, start, end) {
 async function partition(arr, start, end) {
   let pivotIndex = start;
   const pivotValue = arr[end];
+  // the current element is pivot index
+  stateOfValues[pivotIndex] = 0;
   for (let i = start; i < end; i++) {
     if (arr[i] < pivotValue) {
       await swap(arr, i, pivotIndex);
@@ -49,6 +61,7 @@ async function partition(arr, start, end) {
     }
   }
   await swap(arr, pivotIndex, end);
+
   return pivotIndex;
 }
 
