@@ -9,6 +9,12 @@ function setup() {
     values.push(random(height));
   }
   frameRate(5);
+
+  // When quickSort() is a syncronous function, a sorting finishes before the draw loop starts.
+  // Although, now quickSort() is an async function,
+  // there is a possibility that sorting does not finish even after the draw loop starts.
+  // Especially in this case, swap() is delayed certain amount of times,
+  // so you can see the sorting process visually understandable enough.
   quickSort(values, 0, values.length - 1);
 }
 
@@ -21,32 +27,38 @@ function draw() {
   });
 }
 
-function quickSort(arr, start, end) {
+async function quickSort(arr, start, end) {
   if (start >= end) {
     return;
   }
-  const index = partition(arr, start, end);
-  console.log(index);
-  quickSort(arr, start, index - 1);
-  quickSort(arr, index + 1, end);
+  const index = await partition(arr, start, end);
+
+  await Promise.all([
+    quickSort(arr, start, index - 1),
+    quickSort(arr, index + 1, end),
+  ]);
 }
 
-function partition(arr, start, end) {
+async function partition(arr, start, end) {
   let pivotIndex = start;
   const pivotValue = arr[end];
   for (let i = start; i < end; i++) {
     if (arr[i] < pivotValue) {
-      console.log(arr);
-      swap(arr, i, pivotIndex);
+      await swap(arr, i, pivotIndex);
       pivotIndex++;
     }
   }
-  swap(arr, pivotIndex, end);
+  await swap(arr, pivotIndex, end);
   return pivotIndex;
 }
 
-function swap(arr, a, b) {
+async function swap(arr, a, b) {
+  await sleep(100);
   const tmp = arr[a];
   arr[a] = arr[b];
   arr[b] = tmp;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
