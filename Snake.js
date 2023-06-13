@@ -46,6 +46,10 @@ class Snake {
     // if the snake has eaten the food, inject its position to the end of the snake array
     // push cannot be used because push adds element every frame in this case
     this.tail[this.total - 1] = createVector(this.x, this.y);
+
+    // The order is important
+    // if these two lines are placed before lines above, the distance between the head position and the starting positionis always the same,
+    // so the game is over immidiately
     this.x += this.xspeed * SCL;
     this.y += this.yspeed * SCL;
 
