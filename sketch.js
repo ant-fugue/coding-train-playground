@@ -1,22 +1,37 @@
+// grid-related variables
 const cols = 5;
 const rows = 5;
 const grid = new Array(cols);
+let w;
+let h;
 
+// pathfiding-related variables
 const openSet = [];
 const closedSet = [];
 let start;
 let end;
 
 class Spot {
-  constructor() {
+  constructor(i, j) {
+    this.x = i;
+    this.y = j;
     this.f = 0;
     this.g = 0;
     this.h = 0;
+  }
+
+  show() {
+    fill(255);
+    stroke(0);
+    rect(this.x * w, this.y * h, w - 1, h - 1);
   }
 }
 
 function setup() {
   createCanvas(400, 400);
+  w = width / cols;
+  h = height / rows;
+
   for (let i = 0; i < cols; i++) {
     grid[i] = new Array(rows);
   }
@@ -24,7 +39,7 @@ function setup() {
   // making spots
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      grid[i][j] = new Spot();
+      grid[i][j] = new Spot(i, j);
     }
   }
 
@@ -36,4 +51,10 @@ function setup() {
 
 function draw() {
   background(0);
+
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      grid[i][j].show();
+    }
+  }
 }
