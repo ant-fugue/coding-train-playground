@@ -20,9 +20,9 @@ class Spot {
     this.h = 0;
   }
 
-  show() {
-    fill(255);
-    stroke(0);
+  show(color) {
+    fill(color);
+    noStroke(0);
     rect(this.x * w, this.y * h, w - 1, h - 1);
   }
 }
@@ -54,7 +54,10 @@ function draw() {
 
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      grid[i][j].show();
+      grid[i][j].show(color(255));
     }
   }
+
+  closedSet.forEach((elem) => elem.show(color(255, 0, 0)));
+  openSet.forEach((elem) => elem.show(color(0, 255, 0)));
 }
