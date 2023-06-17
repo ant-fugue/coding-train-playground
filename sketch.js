@@ -13,8 +13,8 @@ let end;
 
 class Spot {
   constructor(i, j) {
-    this.x = i;
-    this.y = j;
+    this.i = i;
+    this.j = j;
     this.f = 0;
     this.g = 0;
     this.h = 0;
