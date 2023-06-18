@@ -18,14 +18,41 @@ class Spot {
     this.f = 0;
     this.g = 0;
     this.h = 0;
+    this.neighbors = [];
+  }
+
+  addNeighbors(grid) {
+    const i = this.i;
+    const j = this.j;
+    if (0 < i) {
+      this.neighbors.push(grid[i - 1][j]);
+    }
+    if (i < cols - 1) {
+      this.neighbors.push(grid[i + 1][j]);
+    }
+    if (0 < j) {
+      this.neighbors.push(grid[i][j - 1]);
+    }
+
+    if (j < rows - 1) {
+      this.neighbors.push(grid[i][j + 1]);
+    }
   }
 
   show(color) {
     fill(color);
     noStroke(0);
-    rect(this.x * w, this.y * h, w - 1, h - 1);
+    rect(this.i * w, this.j * h, w - 1, h - 1);
   }
 }
+
+// function removeFromArray(arr, elt) {
+//   for (let i = arr.length - 1; i >= 0; i--) {
+//     if (arr[i] === elt) {
+//       arr.splice(i, 1);
+//     }
+//   }
+// }
 
 function setup() {
   createCanvas(400, 400);
@@ -43,6 +70,12 @@ function setup() {
     }
   }
 
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      grid[i][j].addNeighbors(grid);
+    }
+  }
+
   // setting the starting point and the goal
   start = grid[0][0];
   end = grid[cols - 1][rows - 1];
@@ -51,6 +84,23 @@ function setup() {
 
 function draw() {
   background(0);
+
+  // if (openSet.length > 0) {
+  //   let winner = 0;
+  //   for (let i = 0; i < openSet.length; i++) {
+  //     if (openSet[i].f < openSet[winner].f) {
+  //       winner = i;
+  //     }
+  //   }
+  //   const current = openSet[winner];
+
+  //   if (current === end) {
+  //     console.log("DONE!");
+  //   }
+
+  //   removeFromArray(openSet, current);
+  //   closedSet.push(current);
+  // }
 
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
