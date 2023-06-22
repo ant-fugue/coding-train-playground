@@ -1,6 +1,6 @@
 // grid-related variables
-const cols = 5;
-const rows = 5;
+const cols = 25;
+const rows = 25;
 const grid = new Array(cols);
 let w;
 let h;
@@ -10,15 +10,18 @@ const openSet = [];
 const closedSet = [];
 let start;
 let end;
+let path;
 
 class Spot {
   constructor(i, j) {
     this.i = i;
     this.j = j;
     this.f = 0;
+    // g is the cost of the cheapest path from start to node currently known.
     this.g = 0;
     this.h = 0;
     this.neighbors = [];
+    this.previous = null;
   }
 
   addNeighbors(grid) {
@@ -46,16 +49,31 @@ class Spot {
   }
 }
 
-// function removeFromArray(arr, elt) {
-//   for (let i = arr.length - 1; i >= 0; i--) {
-//     if (arr[i] === elt) {
-//       arr.splice(i, 1);
-//     }
-//   }
-// }
+function removeFromArray(arr, elt) {
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (arr[i] === elt) {
+      arr.splice(i, 1);
+    }
+  }
+}
+
+function heuristic(a, b) {
+  const d = abs(a.i - b.i) + abs(a.j - b.j);
+  return d;
+}
+
+function backtrack(arr, current) {
+  let temp = current;
+  path.push(temp);
+  while (temp.previous) {
+    path.push(temp.previous);
+    temp = temp.previous;
+  }
+}
 
 function setup() {
   createCanvas(400, 400);
+  frameRate(5);
   w = width / cols;
   h = height / rows;
 
@@ -78,36 +96,78 @@ function setup() {
 
   // setting the starting point and the goal
   start = grid[0][0];
-  end = grid[cols - 1][rows - 1];
+  end = grid[cols - 1][5];
   openSet.push(start);
 }
 
 function draw() {
   background(0);
 
-  // if (openSet.length > 0) {
-  //   let winner = 0;
-  //   for (let i = 0; i < openSet.length; i++) {
-  //     if (openSet[i].f < openSet[winner].f) {
-  //       winner = i;
-  //     }
-  //   }
-  //   const current = openSet[winner];
-
-  //   if (current === end) {
-  //     console.log("DONE!");
-  //   }
-
-  //   removeFromArray(openSet, current);
-  //   closedSet.push(current);
-  // }
-
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j].show(color(255));
+  // If there is no spot in the open set before the search finishes,
+  // you cannot reach the goal
+  if (openSet.length > 0) {
+    // loop through all items in the open set
+    // find the spot which has the biggest fscore
+    // set the spot as a following procedual target
+    let winner = 0;
+    for (let i = 0; i < openSet.length; i++) {
+      if (openSet[i].f < openSet[winner].f) {
+        winner = i;
+      }
     }
-  }
+    const current = openSet[winner];
 
-  closedSet.forEach((elem) => elem.show(color(255, 0, 0)));
-  openSet.forEach((elem) => elem.show(color(0, 255, 0)));
+    // if the current spot is the goal, finish search
+    if (current === end) {
+      noLoop();
+      console.log("DONE!");
+    }
+
+    // move the current item from the open set to the closed set
+    removeFromArray(openSet, current);
+    closedSet.push(current);
+
+    // two roles of this part;
+    // 1. calculating scores of neighbors
+    // 2. adding neighbors to the open set
+    const neighbors = current.neighbors;
+    neighbors.forEach((neighbor) => {
+      // Ignore a neighbor which is evaluated
+      if (!closedSet.includes(neighbor)) {
+        // every neighbor has 1 point from current node
+        // in this example, the distance between current spot and its neighbor is always 1.
+        let tempG = current.g + 1;
+
+        // if the neighbor is in the open set,
+        if (openSet.includes(neighbor)) {
+          // check if the current path is more efficient than existing one
+          // if so, update the path
+          if (tempG < neighbor.g) {
+            neighbor.g = tempG;
+          }
+        }
+        // else add the neighbor to the open set
+        else {
+          neighbor.g = tempG;
+          openSet.push(neighbor);
+        }
+        // calculate the distance heuristically between the current neighbor and the goal
+        neighbor.h = heuristic(neighbor, end);
+        neighbor.f = neighbor.g + neighbor.h;
+        neighbor.previous = current;
+      }
+    });
+
+    // render grids, the closed set, the open set, and the current path
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        grid[i][j].show(color(255));
+      }
+    }
+    closedSet.forEach((elem) => elem.show(color(255, 0, 0)));
+    openSet.forEach((elem) => elem.show(color(0, 255, 0)));
+    path = [];
+    backtrack(path, current);
+    path.forEach((elem) => elem.show(color(0, 0, 255)));
+  }
 }
