@@ -11,6 +11,7 @@ const closedSet = [];
 let start;
 let end;
 let path;
+let noSolution = false;
 
 class Spot {
   constructor(i, j) {
@@ -22,6 +23,11 @@ class Spot {
     this.h = 0;
     this.neighbors = [];
     this.previous = null;
+    this.wall = false;
+
+    if (random(1) < 0.3) {
+      this.wall = true;
+    }
   }
 
   addNeighbors(grid) {
@@ -44,6 +50,9 @@ class Spot {
 
   show(color) {
     fill(color);
+    if (this.wall) {
+      fill(0);
+    }
     noStroke(0);
     rect(this.i * w, this.j * h, w - 1, h - 1);
   }
@@ -96,7 +105,9 @@ function setup() {
 
   // setting the starting point and the goal
   start = grid[0][0];
-  end = grid[cols - 1][5];
+  end = grid[cols - 1][rows - 1];
+  start.wall = false;
+  end.wall = false;
   openSet.push(start);
 }
 
@@ -132,8 +143,8 @@ function draw() {
     // 2. adding neighbors to the open set
     const neighbors = current.neighbors;
     neighbors.forEach((neighbor) => {
-      // Ignore a neighbor which is evaluated
-      if (!closedSet.includes(neighbor)) {
+      // don't go to a neighbor which is evaluated or is a wall
+      if (!closedSet.includes(neighbor) && !neighbor.wall) {
         // every neighbor has 1 point from current node
         // in this example, the distance between current spot and its neighbor is always 1.
         let tempG = current.g + 1;
@@ -167,7 +178,13 @@ function draw() {
     closedSet.forEach((elem) => elem.show(color(255, 0, 0)));
     openSet.forEach((elem) => elem.show(color(0, 255, 0)));
     path = [];
-    backtrack(path, current);
+    if (!noSolution) {
+      backtrack(path, current);
+    }
     path.forEach((elem) => elem.show(color(0, 0, 255)));
+  } else {
+    console.log("no solution");
+    noSolution = true;
+    noLoop();
   }
 }
