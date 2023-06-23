@@ -148,23 +148,28 @@ function draw() {
         // in this example, the distance between current spot and its neighbor is always 1.
         let tempG = current.g + 1;
 
+        let newPath = false;
         // if the neighbor is in the open set,
         if (openSet.includes(neighbor)) {
           // check if the current path is more efficient than existing one
           // if so, update the path
           if (tempG < neighbor.g) {
             neighbor.g = tempG;
+            newPath = true;
           }
         }
         // else add the neighbor to the open set
         else {
           neighbor.g = tempG;
+          newPath = true;
           openSet.push(neighbor);
         }
         // calculate the distance heuristically between the current neighbor and the goal
-        neighbor.h = heuristic(neighbor, end);
-        neighbor.f = neighbor.g + neighbor.h;
-        neighbor.previous = current;
+        if (newPath) {
+          neighbor.h = heuristic(neighbor, end);
+          neighbor.f = neighbor.g + neighbor.h;
+          neighbor.previous = current;
+        }
       }
     });
 
