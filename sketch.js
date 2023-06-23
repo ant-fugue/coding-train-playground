@@ -11,7 +11,6 @@ const closedSet = [];
 let start;
 let end;
 let path;
-let noSolution = false;
 
 class Spot {
   constructor(i, j) {
@@ -178,13 +177,11 @@ function draw() {
     closedSet.forEach((elem) => elem.show(color(255, 0, 0)));
     openSet.forEach((elem) => elem.show(color(0, 255, 0)));
     path = [];
-    if (!noSolution) {
-      backtrack(path, current);
-    }
+    backtrack(path, current);
     path.forEach((elem) => elem.show(color(0, 0, 255)));
   } else {
     console.log("no solution");
-    noSolution = true;
     noLoop();
+    return;
   }
 }
