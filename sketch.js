@@ -32,18 +32,31 @@ class Spot {
   addNeighbors(grid) {
     const i = this.i;
     const j = this.j;
-    if (0 < i) {
+    if (i > 0) {
       this.neighbors.push(grid[i - 1][j]);
     }
     if (i < cols - 1) {
       this.neighbors.push(grid[i + 1][j]);
     }
-    if (0 < j) {
+    if (j > 0) {
       this.neighbors.push(grid[i][j - 1]);
     }
 
     if (j < rows - 1) {
       this.neighbors.push(grid[i][j + 1]);
+    }
+
+    if (i > 0 && j > 0) {
+      this.neighbors.push(grid[i - 1][j - 1]);
+    }
+    if (i < cols - 1 && j > 0) {
+      this.neighbors.push(grid[i + 1][j - 1]);
+    }
+    if (i > 0 && j < rows - 1) {
+      this.neighbors.push(grid[i - 1][j + 1]);
+    }
+    if (i < cols - 1 && j < rows - 1) {
+      this.neighbors.push(grid[i + 1][j + 1]);
     }
   }
 
@@ -66,7 +79,8 @@ function removeFromArray(arr, elt) {
 }
 
 function heuristic(a, b) {
-  const d = abs(a.i - b.i) + abs(a.j - b.j);
+  // use Euclidian distance
+  const d = dist(a.i, a.j, b.i, b.j);
   return d;
 }
 
