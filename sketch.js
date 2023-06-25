@@ -86,9 +86,9 @@ function heuristic(a, b) {
 
 function backtrack(arr, current) {
   let temp = current;
-  path.push(temp);
+  arr.push(temp);
   while (temp.previous) {
-    path.push(temp.previous);
+    arr.push(temp.previous);
     temp = temp.previous;
   }
 }
