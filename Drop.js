@@ -5,10 +5,11 @@ class Drop {
     this.yspeed = random(4, 10);
     // used to coordinate the value of length, yspeed and thickness of each drop
     // the longer, the faster, and the thicker <-> the shorter, the slower, and the thinner
-    this.z = random(0, 20);
-    this.len = map(this.z, 0, 20, 10, 20);
-    this.yspeed = map(this.z, 0, 20, 1, 15);
-    this.gravity = map(this.z, 0, 20, 0.01, 0.2);
+    this.range = [0, 20];
+    this.z = random(...this.range);
+    this.len = map(this.z, ...this.range, 10, 20);
+    this.yspeed = map(this.z, ...this.range, 1, 15);
+    this.gravity = map(this.z, ...this.range, 0.01, 0.2);
   }
 
   fall() {
@@ -17,12 +18,12 @@ class Drop {
 
     if (this.y > height) {
       this.y = random(-200, -100);
-      this.yspeed = map(this.z, 0, 20, 1, 15);
+      this.yspeed = map(this.z, ...this.range, 1, 15);
     }
   }
 
   show() {
-    const thickness = map(this.z, 0, 20, 1, 3);
+    const thickness = map(this.z, ...this.range, 1, 3);
     strokeWeight(thickness);
     stroke(138, 43, 226);
     line(this.x, this.y, this.x, this.y + this.len);
