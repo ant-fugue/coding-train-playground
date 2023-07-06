@@ -1,14 +1,14 @@
 let values = [];
 
 let i = 0;
-const w = 10;
+const w = 2;
 
 function setup() {
   createCanvas(400, 300);
   for (let i = 0; i < floor(width / w); i++) {
     values.push(random(height));
   }
-  frameRate(5);
+  frameRate(10);
 }
 
 function draw() {
@@ -17,7 +17,7 @@ function draw() {
   values.forEach((elem, i) => {
     stroke(0);
     fill(255);
-    rect(i * w, height - elem, w, elem);
+    rect(i * w, height - elem, w, w);
   });
 }
 
