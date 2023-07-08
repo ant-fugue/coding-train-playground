@@ -26,9 +26,7 @@ function bubbleSort() {
   // if i is local, in every frame browser renders the sorted state, not the ongoing sorting process
   if (i < values.length) {
     for (let j = 0; j < values.length - i; j++) {
-      const a = values[j];
-      const b = values[j + 1];
-      if (a > b) {
+      if (values[j] > values[j + 1]) {
         swap(values, j, j + 1);
       }
     }
