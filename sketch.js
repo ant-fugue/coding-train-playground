@@ -3,5 +3,9 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(51);
+
+  const x = map(noise(100), 0, 1, 0, width);
+
+  ellipse(x, 200, 24, 24);
 }
