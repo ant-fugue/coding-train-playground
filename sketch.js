@@ -1,3 +1,5 @@
+let xoff = 0;
+
 function setup() {
   createCanvas(400, 400);
 }
@@ -5,7 +7,7 @@ function setup() {
 function draw() {
   background(51);
 
-  const x = map(noise(100), 0, 1, 0, width);
-
+  const x = map(noise(xoff), 0, 1, 0, width);
+  xoff += 0.01;
   ellipse(x, 200, 24, 24);
 }
