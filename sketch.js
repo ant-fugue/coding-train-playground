@@ -1,10 +1,12 @@
+const inc = 0.01;
+
 function setup() {
   createCanvas(200, 200);
   pixelDensity(1);
 }
 
 function draw() {
-  const xoff = 0;
+  let xoff = 0;
 
   loadPixels();
   for (let x = 0; x < width; x++) {
@@ -15,6 +17,8 @@ function draw() {
       pixels[index + 1] = r;
       pixels[index + 2] = r;
       pixels[index + 3] = 255;
+
+      xoff += inc;
     }
   }
   updatePixels();
