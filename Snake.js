@@ -2,8 +2,11 @@ class Snake {
   constructor() {
     this.x = 0;
     this.y = 0;
-    this.xspeed = 1;
-    this.yspeed = 0;
+
+    // in this game, speed does not change, so dir is the more relevant name
+    this.xdir = 1;
+    this.ydir = 0;
+
     this.total = 1;
     this.tail = [];
   }
@@ -19,9 +22,9 @@ class Snake {
     }
   }
 
-  dir(x, y) {
-    this.xspeed = x;
-    this.yspeed = y;
+  changeDir(xdir, ydir) {
+    this.xdir = xdir;
+    this.ydir = ydir;
   }
 
   isDead() {
@@ -50,8 +53,8 @@ class Snake {
     // The order is important
     // if these two lines are placed before lines above, the distance between the head position and the starting positionis always the same,
     // so the game is over immidiately
-    this.x += this.xspeed * SCL;
-    this.y += this.yspeed * SCL;
+    this.x += this.xdir * SCL;
+    this.y += this.ydir * SCL;
 
     this.x = constrain(this.x, 0, width - SCL);
     this.y = constrain(this.y, 0, height - SCL);
