@@ -9,7 +9,7 @@ class Snake {
   }
 
   eat(item) {
-    const d = dist(this.x, this.y, item.position.x, item.position.y);
+    const d = dist(this.x, this.y, item.x, item.y);
     if (d < 1) {
       // every time the snake eats the food, it increases its length
       this.total++;
