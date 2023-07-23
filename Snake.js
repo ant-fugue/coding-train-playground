@@ -48,6 +48,7 @@ class Snake {
     }
     // if the snake has eaten the food, inject its position to the end of the snake array
     // push cannot be used because push adds element every frame in this case
+    // initially this.tail is empty, but this line adds the first position
     this.tail[this.total - 1] = createVector(this.x, this.y);
 
     // The order is important
