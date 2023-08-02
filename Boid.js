@@ -12,12 +12,14 @@ class Boid {
   edge() {
     if (this.position.x > width) {
       this.position.x = 0;
-    } else if (this.position.x < 0) {
+    }
+    if (this.position.x < 0) {
       this.position.x = width;
     }
     if (this.position.y > height) {
       this.position.y = 0;
-    } else if (this.position.y < 0) {
+    }
+    if (this.position.y < 0) {
       this.position.y = height;
     }
   }
@@ -41,7 +43,7 @@ class Boid {
     if (total > 0) {
       // this is the average heading velocity
       steering.div(total);
-      // the magnitude of flocks is the same
+      // the magnitudes of flocks are equal
       steering.setMag(this.maxSpeed);
       // the steering velocity = the average heading velocity - the boid velocity
       steering.sub(this.velocity);
@@ -71,9 +73,11 @@ class Boid {
       steering.div(total);
       // get the velocity from the  current position to the average position
       steering.sub(this.position);
-      // the magnitude of flocks is the same
+      // the magnitudes of flocks are equal
       steering.setMag(this.maxSpeed);
       // the steering velocity = the average heading velocity - the boid velocity
+      // Commenting out this line, and only cohesion is enabled,
+      // boids form a circle. why?
       steering.sub(this.velocity);
       steering.limit(this.maxForce);
     }
@@ -102,7 +106,7 @@ class Boid {
     if (total > 0) {
       // this is the average position of local flockmates
       steering.div(total);
-      // the magnitude of flocks is the same
+      // the magnitudes of flocks are equal
       steering.setMag(this.maxSpeed);
       // the steering velocity = the average heading velocity - the boid velocity
       steering.sub(this.velocity);
