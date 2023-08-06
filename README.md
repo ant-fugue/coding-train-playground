@@ -5,4 +5,4 @@ Each topic has its equivalent branch, and on top of that, it is copied, refactor
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+MIT
